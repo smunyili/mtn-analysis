@@ -1,39 +1,62 @@
 from reader import Reader
-from numpy import genfromtxt
+import numpy as np
 
 class Analysis:
     def __init__(self):
-        print("Initiaised the Analysis")
+        self.reader = Reader()
+        self.cities = self.get_cities_names()
 
-    def get_read_data(self):
-        reader = Reader()
-        data = reader.read_from_csv("data/Telcom_dataset3.csv")
-        # print(data)
-
-        # my_data = genfromtxt('data/Telcom_dataset3.csv')
-        # print(my_data)
-
-        dictionary = {"PRODUCT": "Voice", "Value": "61", "date":  "2012-05-08 23:01:28.0", "site_id": "547385b9d5"}
-        dictionary2 = {"PRODUCT": "Voice", "Value": "100", "date":  "2012-07-08 23:01:28.0"}
-        dictionary3 = {"PRODUCT": "Voice2", "Value": "100", "date":  "2012-07-08 23:01:28.0"}
-        list = [dictionary, dictionary2, dictionary3]
-
-
+    def get_cities_names(self):
+        data = self.reader.read_from_csv("data/cells_geo.csv", ";")
         cities = dict()
-        myList = []
 
-        for record in list:
-            cities["site_id"] = "Abobo"
-            myList.append(record["PRODUCT"])
-            mySet.add(record["PRODUCT"])
+        for row in np.array(data):
+            city = ''
+            for idx, record in enumerate(row):
+                if idx == 1:
+                    city = record
+                elif idx == 11:
+                    cities[record] = city
 
-        print(mySet)
-        print(myList)
+        return cities
+
+    def get_most_calls_city(self):
+        day_1_data = self.reader.read_from_csv("data/Telcom_dataset.csv")
+        mode_city = day_1_data.SITE_ID.mode()
+
+        city_name = self.cities.get(mode_city[0])
+        print(city_name)
+
+        day_2_data = self.reader.read_from_csv("data/Telcom_dataset2.csv")
+        mode_city = day_2_data.SITE_ID.mode()
+
+        city_name = self.cities.get(mode_city[0])
+        print(city_name)
+
+        day_3_data = self.reader.read_from_csv("data/Telcom_dataset3.csv")
+        mode_city = day_3_data.SIET_ID.mode()
+
+        city_name = self.cities.get(mode_city[0])
+        print(city_name)
 
 
 
-# nested list
-# List of dictionaries
-
-    def analyse():
+"""
+class MyClass():
+    # my_analysed_variable = None
+    def my_def(self):
+       # analyses 1,000,000,000 rows
+       self. = results
         pass
+    
+    def my_user_def(self):
+        # use the analysis
+        # I will use self.my_analysed_variable
+
+class MyOtherClass:
+    def main(self):
+        my_class = MyClass() # creates an Instance
+        my_class.my_def()
+        my_class.my_user_def()
+        
+"""

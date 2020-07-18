@@ -2,7 +2,7 @@ from analysis import Analysis
 
 def main():
     analysis = Analysis()
-    analysis.get_read_data()
+    analysis.get_most_calls_city()
 
 
 if __name__ == "__main__":
